@@ -1,0 +1,32 @@
+@import './base.css';
+
+
+/* Wrapper */
+.wrapper {	
+  /* position: relative; */
+  margin: 0 auto ;
+  max-width: 1470px;
+  /* height: inherit; */
+  padding: 0 15px;
+}
+
+
+@media (max-width: 1024px) {
+  .wrapper {
+    padding: 0 10px;
+  }
+}
+@media (max-width: 479px) {
+  .mobWrapper{
+    padding: 0px;
+  }
+}
+@media (max-width: 360px){
+  .wrapper {
+    padding: 0 5px;
+  }
+  .mobWrapper{
+    padding: 0px;
+  }
+}
+
