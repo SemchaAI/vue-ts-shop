@@ -20,19 +20,16 @@ const router = createRouter({
     {
       path: '/login',
       name: 'login',
-      beforeEnter: (to, from, next) => {
-        console.log(useUserStore().isLogin)
-        useUserStore().isLogin ? next({ name: 'home' }) : next()
-      },
+      // beforeEnter: (to, from, next) => {
+      //   console.log(useUserStore().isLogin)
+      //   useUserStore().isLogin ? next({ name: 'home' }) : next()
+      // },
       component: () => import('@/views/LoginView.vue')
     },
     {
       path: '/register',
       name: 'register',
-      beforeEnter: (to, from, next) => {
-        useUserStore().isLogin ? next({ name: 'home' }) : next()
-      },
-      component: () => import('@/views/RegisterView.vue')
+      component: () => import('@/views/LoginView.vue')
     },
     {
       path: '/cart',
