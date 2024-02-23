@@ -1,6 +1,8 @@
 import { ref } from 'vue'
 import { defineStore } from 'pinia'
-import type { IProduct, IType, IBrand } from '@/models/IProduct'
+import type { IProduct, IType, IBrand, ITypeDTO } from '@/models/IProduct'
+import { AxiosError } from 'axios'
+import { ProductService } from '@/services/product.service'
 
 export const useProductsStore = defineStore('products', () => {
   const state = ref({
@@ -54,10 +56,10 @@ export const useProductsStore = defineStore('products', () => {
       { _id: '0', name: 'Все' },
       { _id: '1', name: 'Adidas' }
     ],
-    types: [
-      { _id: '0', name: 'Все' },
-      { _id: '1', name: 'Мужские' }
-    ]
+    types: [] as IType[],
+    selectedType: {
+      _id: '0'
+    }
   })
   function setProducts(arr: IProduct[]) {
     state.value.products = arr
@@ -65,9 +67,39 @@ export const useProductsStore = defineStore('products', () => {
   function setBrands(arr: IBrand[]) {
     state.value.brands = arr
   }
+
+  // TYPES
   function setTypes(arr: IType[]) {
     state.value.types = arr
   }
+  function setSelectedType(type: IType) {
+    state.value.selectedType = type
+  }
 
-  return { state, setProducts, setBrands, setTypes }
+  // TYPES ASYNC
+  async function createType(type: ITypeDTO) {
+    try {
+      const response = await ProductService.createType(type)
+    } catch (e) {
+      if (e instanceof AxiosError) {
+        console.log(e.response?.data?.message)
+      } else {
+        console.log('WTF WITH THIS ERROR?', e)
+      }
+    }
+  }
+  async function getTypes() {
+    try {
+      const response = await ProductService.getTypes()
+      setTypes(response.data)
+    } catch (e) {
+      if (e instanceof AxiosError) {
+        console.log(e.response?.data?.message)
+      } else {
+        console.log('WTF WITH THIS ERROR?', e)
+      }
+    }
+  }
+
+  return { state, setProducts, setBrands, setTypes, setSelectedType, createType, getTypes }
 })
