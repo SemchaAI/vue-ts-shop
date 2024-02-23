@@ -1,12 +1,15 @@
 <script lang="ts" setup>
 import { ProductService } from '@/services/product.service'
-// import { useQuery } from '@tanstack/vue-query'
+
 import { useRoute } from 'vue-router'
 import { onMounted, ref } from 'vue'
 import type { IProduct } from '@/components/productList/product.interface'
+import { useProductsStore } from '@/stores/product'
 
 const route = useRoute()
 const id = Array.isArray(route.params.id) ? route.params.id[0] : route.params.id
+
+const productsStore = useProductsStore()
 
 const isLoading = ref(false)
 const product = ref({
@@ -19,6 +22,7 @@ const product = ref({
 // })
 onMounted(async () => {
   product.value = await ProductService.getOne(id)
+  // const tmp = await productsStore.getTypes()
   isLoading.value = true
 })
 </script>
