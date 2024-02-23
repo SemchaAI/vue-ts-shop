@@ -1,7 +1,5 @@
 <script setup lang="ts">
-import { ref } from 'vue'
-// import { useMutation } from '@tanstack/vue-query'
-// import { UserService } from '@/services/user.service'
+import { ref, computed } from 'vue'
 
 import { useUserStore } from '@/stores/user'
 import { useRouter } from 'vue-router'
@@ -12,21 +10,16 @@ const router = useRouter()
 const email = ref('')
 const password = ref('')
 
-// const User = reactive({
-//   email: '',
-//   password: ''
-// })
+const isLogin = computed(() => router.currentRoute.value.name === 'login')
+const Title = computed(() => (isLogin.value ? 'Вход' : 'Регистрация'))
 
-// const { mutate: loginUser, isLoading } = useMutation({
-//   mutationKey: ['createUser'],
-//   mutationFn: (body: IUser) => UserService.login(body.email, body.password)
-// })
-const loginHandler = async (email: string, password: string) => {
-  await userStore.login(email, password)
-  if (userStore.isLogin) {
-    console.log(userStore.isLogin)
-    router.push({ name: 'home' })
+const submitHandler = async (email: string, password: string) => {
+  if (isLogin.value) {
+    await userStore.login(email, password)
+  } else {
+    await userStore.registration(email, password)
   }
+  router.push({ name: 'home' })
 }
 </script>
 
@@ -34,6 +27,7 @@ const loginHandler = async (email: string, password: string) => {
   <section class="login">
     <div class="wrapper">
       <div class="loginContainer">
+        <h1>{{ Title }}</h1>
         <form>
           <div class="field">
             <div><label for="email">Почта:</label></div>
@@ -44,8 +38,17 @@ const loginHandler = async (email: string, password: string) => {
             <div><label for="password">Пароль:</label></div>
             <input v-model="password" value="123456" type="password" id="password" required />
           </div>
-
-          <button @click.prevent="loginHandler(email, password)" type="submit">Вход</button>
+          <div>
+            <div v-if="isLogin">
+              Нет аккаунта?
+              <RouterLink :to="{ name: 'register' }">Зарегистрируйся</RouterLink>
+            </div>
+            <div v-else>
+              Есть аккаунт?
+              <RouterLink :to="{ name: 'login' }">Войди</RouterLink>
+            </div>
+            <button @click.prevent="submitHandler(email, password)" type="submit">Вход</button>
+          </div>
         </form>
       </div>
     </div>
