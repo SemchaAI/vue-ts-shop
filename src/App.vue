@@ -3,6 +3,8 @@ import { onMounted } from 'vue'
 import { RouterView } from 'vue-router'
 import { useUserStore } from '@/stores/user'
 import { storeToRefs } from 'pinia'
+import { ModalsContainer } from 'vue-final-modal'
+
 import LoadingSpinner from './components/loading/LoadingSpinner.vue'
 
 const userStore = useUserStore()
@@ -33,14 +35,14 @@ const logoutHandler = async () => {
         </div>
         <nav class="headerNav">
           <RouterLink v-if="isAdmin" :to="{ name: 'admin' }">Admin</RouterLink>
-          <RouterLink :to="{ name: 'login' }">Login</RouterLink>
-          <RouterLink :to="{ name: 'register' }">Register</RouterLink>
+          <RouterLink :to="{ name: 'login' }">Sign in/up</RouterLink>
           <RouterLink :to="{ name: 'cart' }">Cart</RouterLink>
         </nav>
       </div>
     </div>
   </header>
   <RouterView />
+  <ModalsContainer />
 </template>
 
 <style scoped>
