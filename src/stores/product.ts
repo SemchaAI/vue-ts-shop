@@ -1,66 +1,31 @@
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 import { defineStore } from 'pinia'
-import type { IProduct, IType, IBrand, ITypeDTO } from '@/models/IProduct'
+import { type IProduct, type IType, type IBrand, type ITypeDTO, EStatus } from '@/models/IProduct'
 import { AxiosError } from 'axios'
-import { ProductService } from '@/services/product.service'
+import { ProductService, type TProductDTO } from '@/services/product.service'
 
 export const useProductsStore = defineStore('products', () => {
   const state = ref({
-    products: [
-      {
-        _id: '0',
-        title: 'Название',
-        price: 0,
-        rating: 0,
-        img: 'https://picsum.photos/200/300',
-        typeId: '0',
-        brandId: '0',
-        description: 'Описание',
-        cnt: 0
-      },
-      {
-        _id: '1',
-        title: 'Название1',
-        price: 1,
-        rating: 1,
-        img: 'https://picsum.photos/200/300',
-        typeId: '1',
-        brandId: '1',
-        description: 'Описание',
-        cnt: 0
-      },
-      {
-        _id: '2',
-        title: 'Название2',
-        price: 2,
-        rating: 2,
-        img: 'https://picsum.photos/200/300',
-        typeId: '2',
-        brandId: '2',
-        description: 'Описание',
-        cnt: 0
-      },
-      {
-        _id: '3',
-        title: 'Название3',
-        price: 3,
-        rating: 3,
-        img: 'https://picsum.photos/200/300',
-        typeId: '3',
-        brandId: '3',
-        description: 'Описание',
-        cnt: 0
-      }
-    ],
+    products: [] as IProduct[],
     brands: [
       { _id: '0', name: 'Все' },
       { _id: '1', name: 'Adidas' }
     ],
     types: [] as IType[],
     selectedType: {
-      _id: '0'
-    }
+      _id: null
+    } as { _id: string | null },
+    page: 1,
+    total: 1,
+    limit: 3,
+    status: EStatus.IDLE
   })
+  const products = computed(() => state.value.products)
+  const page = computed(() => state.value.page)
+  const total = computed(() => state.value.total)
+  const limit = computed(() => state.value.limit)
+  const selectedType = computed(() => state.value.selectedType._id)
+
   function setProducts(arr: IProduct[]) {
     state.value.products = arr
   }
@@ -68,11 +33,40 @@ export const useProductsStore = defineStore('products', () => {
     state.value.brands = arr
   }
 
+  async function createProduct(body: TProductDTO) {
+    try {
+      const response = await ProductService.create(body)
+      console.log(response)
+    } catch (e) {
+      if (e instanceof AxiosError) {
+        console.log(e.response?.data?.message)
+      } else {
+        console.log('WTF WITH THIS ERROR?', e)
+      }
+    }
+  }
+
+  async function getAll(brandId, typeId, page, limit) {
+    try {
+      state.value.status = EStatus.LOADING
+      const response = await ProductService.getAll(brandId, typeId, page, limit)
+      state.value.status = EStatus.SUCCESS
+      console.log(response)
+      return response
+    } catch (e) {
+      if (e instanceof AxiosError) {
+        console.log(e.response?.data?.message)
+      } else {
+        console.log('WTF WITH THIS ERROR?', e)
+      }
+    }
+  }
+
   // TYPES
   function setTypes(arr: IType[]) {
     state.value.types = arr
   }
-  function setSelectedType(type: IType) {
+  function setSelectedType(type: { _id: string | null }) {
     state.value.selectedType = type
   }
 
@@ -101,5 +95,34 @@ export const useProductsStore = defineStore('products', () => {
     }
   }
 
-  return { state, setProducts, setBrands, setTypes, setSelectedType, createType, getTypes }
+  // PAGINATION
+  function setTotal(total: number) {
+    state.value.total = total
+  }
+  function setLimit(limit: number) {
+    state.value.limit = limit
+  }
+  function setPage(page: number) {
+    state.value.page = page
+  }
+
+  return {
+    state,
+    products,
+    page,
+    total,
+    limit,
+    selectedType,
+    setProducts,
+    setBrands,
+    setTypes,
+    setSelectedType,
+    createType,
+    getTypes,
+    createProduct,
+    getAll,
+    setTotal,
+    setLimit,
+    setPage
+  }
 })
