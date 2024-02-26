@@ -5,14 +5,21 @@ import { storeToRefs } from 'pinia'
 const productsStore = useProductsStore()
 const { state } = storeToRefs(productsStore)
 
-onMounted(async () => {
-  const tmp = await productsStore.getTypes()
-  console.log(tmp)
-})
+// onMounted(async () => {
+//   const tmp = await productsStore.getTypes()
+//   console.log(tmp)
+// })
 </script>
 
 <template>
   <ul class="sideBar">
+    <li
+      @click="productsStore.setSelectedType({ _id: null })"
+      :class="{ activeType: productsStore.state.selectedType._id === null }"
+      class="type"
+    >
+      Все
+    </li>
     <li
       :class="{ activeType: productsStore.state.selectedType._id === type._id }"
       @click="productsStore.setSelectedType(type)"
