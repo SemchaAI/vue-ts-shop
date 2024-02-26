@@ -4,18 +4,28 @@ import type { ITypeDTO, IType } from '@/models/IProduct'
 import { PRODUCT_ROUTE, PRODUCT_ROUTE_TYPE } from '@/utils/consts'
 import axios from 'axios'
 
-export type TProductDTO = Omit<IProduct, 'id'>
+export type TProductDTO = Omit<IProduct, '_id'>
 
 axios.defaults.baseURL = import.meta.env.VITE_BASE_URL
 
 export const ProductService = {
-  async getAll() {
-    return await server.get<IProductList>(PRODUCT_ROUTE)
+  async getAll(brandId, typeId, page, limit = 6) {
+    const tmp = await server.get<IProductList>(PRODUCT_ROUTE, {
+      params: {
+        brandId,
+        typeId,
+        limit,
+        page
+      }
+    })
+    console.log(tmp.data)
+    return tmp
   },
   async create(body: TProductDTO) {
-    return axios.post<IProduct>(PRODUCT_ROUTE, body, {
+    return axios.post<TProductDTO>(PRODUCT_ROUTE, body, {
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'multipart/form-data',
+        Authorization: `Bearer ${localStorage.getItem('auth')}`
       }
     })
   },
