@@ -1,25 +1,28 @@
 <script setup lang="ts">
 import BtnPlus from '../icons/btnPlus.vue'
 import OutOfStock from '../icons/OutOfStock.vue'
-import type { IProductList } from '../productList/product.interface'
+import type { IProduct } from '../../models/IProduct'
 
-const props = defineProps<IProductList>()
-const { products, page, total } = props
+const props = defineProps<{
+  list: IProduct
+}>()
+const { list } = props
+const url = import.meta.env.VITE_BASE_URL_BD
 </script>
 
 <template>
-  <li class="product" :key="product._id" v-for="product in products">
-    <RouterLink class="productLink" :to="{ name: 'product', params: { id: product._id } }">
-      <img class="productImg" width="200px" :src="product.imgLink" :alt="product.title" />
-      <h3 class="productTitle">{{ product.title }}</h3>
+  <li class="product">
+    <RouterLink class="productLink" :to="{ name: 'product', params: { id: list._id } }">
+      <img class="productImg" width="200px" :src="url + '/' + list.img" :alt="list.title" />
+      <h3 class="productTitle">{{ list.title }}</h3>
     </RouterLink>
     <div class="productInfo">
       <div class="productContainer">
         <div class="productPriceLabel">Цена:</div>
-        <p class="productPrice">{{ product.price }}</p>
+        <p class="productPrice">{{ list.price }}</p>
       </div>
       <div class="productControls">
-        <button class="productBtnContainer" v-if="product.cnt > 0">
+        <button class="productBtnContainer" v-if="list.cnt > 0">
           <BtnPlus />
         </button>
         <div class="outOfStockContainer" v-else>
