@@ -35,7 +35,7 @@ const router = createRouter({
       path: '/cart',
       name: 'cart',
       beforeEnter: (to, from, next) => {
-        useUserStore().isLogin ? next({ name: 'login' }) : next()
+        !useUserStore().isLogin ? next({ name: 'login' }) : next()
       },
       component: () => import('@/views/CartView.vue')
     },
