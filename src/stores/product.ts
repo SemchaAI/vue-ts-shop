@@ -18,12 +18,14 @@ export const useProductsStore = defineStore('products', () => {
     page: 1,
     total: 1,
     limit: 3,
+    title: null as string | null,
     status: EStatus.IDLE
   })
   const products = computed(() => state.value.products)
   const page = computed(() => state.value.page)
   const total = computed(() => state.value.total)
   const limit = computed(() => state.value.limit)
+  const title = computed(() => state.value.title)
   const selectedType = computed(() => state.value.selectedType._id)
 
   function setProducts(arr: IProduct[]) {
@@ -46,10 +48,10 @@ export const useProductsStore = defineStore('products', () => {
     }
   }
 
-  async function getAll(brandId, typeId, page, limit) {
+  async function getAll(brandId, typeId, page, limit, title) {
     try {
       state.value.status = EStatus.LOADING
-      const response = await ProductService.getAll(brandId, typeId, page, limit)
+      const response = await ProductService.getAll(brandId, typeId, page, limit, title)
       state.value.status = EStatus.SUCCESS
       console.log(response)
       return response
@@ -105,6 +107,9 @@ export const useProductsStore = defineStore('products', () => {
   function setPage(page: number) {
     state.value.page = page
   }
+  function setTitle(title: string) {
+    state.value.title = title
+  }
 
   return {
     state,
@@ -112,6 +117,7 @@ export const useProductsStore = defineStore('products', () => {
     page,
     total,
     limit,
+    title,
     selectedType,
     setProducts,
     setBrands,
@@ -123,6 +129,7 @@ export const useProductsStore = defineStore('products', () => {
     getAll,
     setTotal,
     setLimit,
-    setPage
+    setPage,
+    setTitle
   }
 })
