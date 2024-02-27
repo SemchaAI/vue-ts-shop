@@ -12,7 +12,9 @@ import ProductCard from '../product/ProductCard.vue'
 import SidebarTypes from '../sidebar/SidebarTypes.vue'
 
 const productsStore = useProductsStore()
-const { state, products, page, limit, total, selectedType } = storeToRefs(productsStore)
+const { state, products, page, limit, total, selectedType, title } = storeToRefs(productsStore)
+const titleNew = ref(null)
+let filterTimeout: ReturnType<typeof setTimeout>
 // const pagination = ref<Number | Number[]>(total.value)
 
 // const list = ref<IProduct[]>(products.value)
@@ -61,9 +63,24 @@ const toPage = (page: number) => {
   }
 }
 
+const changeHandler = (event: Event) => {
+  clearTimeout(filterTimeout)
+
+  filterTimeout = setTimeout(() => {
+    console.log('====>')
+    productsStore.setTitle((event.target as HTMLInputElement).value)
+  }, 500)
+}
+
 onMounted(async () => {
   await productsStore.getTypes()
-  const tmp = await productsStore.getAll(null, selectedType.value, page.value, limit.value)
+  const tmp = await productsStore.getAll(
+    null,
+    selectedType.value,
+    page.value,
+    limit.value,
+    title.value
+  )
   if (tmp) {
     productsStore.setProducts(tmp.data.products)
     productsStore.setTotal(tmp.data.total)
@@ -78,12 +95,18 @@ onMounted(async () => {
     // }
   }
 })
-watch([page, selectedType], async (newVal, oldVal) => {
+watch([page, selectedType, title], async (newVal, oldVal) => {
   console.log(oldVal, newVal)
-  if (oldVal[1] !== newVal[1]) {
+  if (oldVal[1] !== newVal[1] || oldVal[2] !== newVal[2]) {
     productsStore.setPage(1)
   }
-  let res = await productsStore.getAll(null, selectedType.value, page.value, limit.value)
+  let res = await productsStore.getAll(
+    null,
+    selectedType.value,
+    page.value,
+    limit.value,
+    title.value
+  )
   if (res) {
     productsStore.setProducts(res.data.products)
     productsStore.setTotal(res.data.total)
@@ -108,6 +131,7 @@ watch([page, selectedType], async (newVal, oldVal) => {
         <SidebarTypes class="sidebar" />
         <div class="productsWrapper">
           <h1 class="productsTitle">New sneakers collection</h1>
+          <input @input="changeHandler" style="height: 50px; width: 100%" type="text" />
           <div class="verify" v-if="state.status === EStatus.SUCCESS">
             <ul v-if="products.length > 0" v-auto-animate class="productsList">
               <ProductCard :key="product._id" v-for="product in products" :list="product" />
