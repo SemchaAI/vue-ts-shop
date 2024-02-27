@@ -9,13 +9,14 @@ export type TProductDTO = Omit<IProduct, '_id'>
 axios.defaults.baseURL = import.meta.env.VITE_BASE_URL
 
 export const ProductService = {
-  async getAll(brandId, typeId, page, limit = 6) {
+  async getAll(brandId, typeId, page, limit = 6, title) {
     const tmp = await server.get<IProductList>(PRODUCT_ROUTE, {
       params: {
         brandId,
         typeId,
         limit,
-        page
+        page,
+        title
       }
     })
     console.log(tmp.data)
