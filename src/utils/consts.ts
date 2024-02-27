@@ -6,3 +6,5 @@ export const USER_ROUTE_USERS = '/user/users'
 export const PRODUCT_ROUTE = '/product'
 
 export const PRODUCT_ROUTE_TYPE = '/type'
+
+export const CART_ROUTE = '/cart'
