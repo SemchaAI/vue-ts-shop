@@ -2,7 +2,7 @@
 import { useCartStore } from '@/stores/cart'
 import { useUserStore } from '@/stores/user'
 import { storeToRefs } from 'pinia'
-import { onMounted } from 'vue'
+// import { onMounted } from 'vue'
 
 const url = import.meta.env.VITE_BASE_URL_BD
 
@@ -11,12 +11,16 @@ const userStore = useUserStore()
 const { state } = storeToRefs(userStore)
 const { items } = storeToRefs(cartStore)
 
-onMounted(async () => {
-  console.log(state.value.user.id)
-  const cartProducts = await cartStore.getCartProducts(state.value.user.id)
-  console.log(cartProducts)
-  cartStore.setCartProducts(cartProducts?.data)
-})
+const removeHandler = async (id: string): Promise<void> => {
+  await cartStore.deleteOne(state.value.user.id, id)
+}
+
+// onMounted(async () => {
+//   console.log(state.value.user.id)
+//   const cartProducts = await cartStore.getCartProducts(state.value.user.id)
+//   console.log(cartProducts)
+//   cartStore.setCartProducts(cartProducts?.data)
+// })
 </script>
 
 <template>
@@ -29,6 +33,7 @@ onMounted(async () => {
             <div>{{ item.title }}</div>
             <img :src="url + '/' + item.img" :alt="item.title" />
             <div>{{ item.price }}</div>
+            <button @click="removeHandler(item._id)">Remove From Cart</button>
           </div>
         </div>
         <div v-else>Error.Cart wasnt loaded or its empty please try again</div>
