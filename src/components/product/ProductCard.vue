@@ -1,13 +1,27 @@
 <script setup lang="ts">
+import { useCartStore } from '@/stores/cart'
+import { storeToRefs } from 'pinia'
 import BtnPlus from '../icons/btnPlus.vue'
 import OutOfStock from '../icons/OutOfStock.vue'
 import type { IProduct } from '../../models/IProduct'
+import { useUserStore } from '@/stores/user'
 
 const props = defineProps<{
   list: IProduct
 }>()
 const { list } = props
 const url = import.meta.env.VITE_BASE_URL_BD
+
+const cartStore = useCartStore()
+const userStore = useUserStore()
+const { state } = storeToRefs(userStore)
+
+const clickHandler = async () => {
+  await cartStore.addOne(state.value.user.id, list._id)
+}
+const removeHandler = async () => {
+  await cartStore.deleteOne(state.value.user.id, list._id)
+}
 </script>
 
 <template>
@@ -22,15 +36,19 @@ const url = import.meta.env.VITE_BASE_URL_BD
         <p class="productPrice">{{ list.price }}</p>
       </div>
       <div class="productControls">
-        <button class="productBtnContainer" v-if="list.cnt > 0">
-          <BtnPlus />
-        </button>
-        <div class="outOfStockContainer" v-else>
+        <div class="outOfStockContainer" v-if="cartStore.isInCart(list._id)">
+          <p class="productText">Added</p>
+          <button @click="removeHandler">Remove from Cart</button>
+        </div>
+        <div class="outOfStockContainer" v-else-if="list.cnt <= 0">
           <p class="productText">Out of Stock</p>
           <!-- <div class="productBtnContainer"> -->
           <OutOfStock class="productBtnContainer" />
           <!-- </div> -->
         </div>
+        <button @click="clickHandler" class="productBtnContainer" v-else>
+          <BtnPlus />
+        </button>
       </div>
     </div>
   </li>
