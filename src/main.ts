@@ -1,5 +1,6 @@
-import './assets/main.css'
+import './assets/main.scss'
 import 'vue-final-modal/style.css'
+import 'animate.css'
 
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'
