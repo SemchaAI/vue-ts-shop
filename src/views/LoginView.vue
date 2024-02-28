@@ -3,9 +3,15 @@ import { ref, computed } from 'vue'
 
 import { useUserStore } from '@/stores/user'
 import { useRouter } from 'vue-router'
+import { useCartStore } from '@/stores/cart'
+import { storeToRefs } from 'pinia'
+
+const router = useRouter()
 
 const userStore = useUserStore()
-const router = useRouter()
+const cartStore = useCartStore()
+
+const { state } = storeToRefs(userStore)
 
 const email = ref('')
 const password = ref('')
@@ -19,6 +25,9 @@ const submitHandler = async (email: string, password: string) => {
   } else {
     await userStore.registration(email, password)
   }
+
+  const cartProducts = await cartStore.getCartProducts(state.value.user.id)
+  cartStore.setCartProducts(cartProducts?.data)
   router.push({ name: 'home' })
 }
 </script>
