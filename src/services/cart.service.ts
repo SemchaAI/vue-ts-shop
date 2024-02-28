@@ -17,5 +17,23 @@ export const CartService = {
     })
     console.log(tmp.data)
     return tmp
+  },
+  async addOne(userId: string, productId: string) {
+    const tmp = await server.post(CART_ROUTE + '/add', {
+      userId,
+      productId
+    })
+    console.log(tmp.data)
+    return tmp
+  },
+  async deleteOne(userId: string, productId: string) {
+    const tmp = await server.delete(CART_ROUTE + '/delete', {
+      data: {
+        userId,
+        productId
+      }
+    })
+    console.log(tmp.data)
+    return tmp
   }
 }
