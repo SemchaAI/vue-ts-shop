@@ -1,14 +1,8 @@
 <script setup lang="ts">
-import { onMounted } from 'vue'
 import { useProductsStore } from '@/stores/product'
 import { storeToRefs } from 'pinia'
 const productsStore = useProductsStore()
 const { state } = storeToRefs(productsStore)
-
-// onMounted(async () => {
-//   const tmp = await productsStore.getTypes()
-//   console.log(tmp)
-// })
 </script>
 
 <template>
@@ -32,22 +26,24 @@ const { state } = storeToRefs(productsStore)
   </ul>
 </template>
 
-<style scoped>
+<style scoped lang="scss">
 .sideBar {
   position: sticky;
   top: 20px;
-  margin-top: 90px;
-  padding: 20px 10px;
-  background-color: var(--white);
+  padding: 20px;
+  border-radius: 15px;
+  background-color: var(--surface);
   height: fit-content;
-  font-weight: bold;
+  @include body1Typo;
 }
 .type {
   padding: 10px;
   cursor: pointer;
+  border-radius: 10px;
+  @include transition;
 }
 .activeType {
-  background-color: var(--positive);
-  color: var(--white);
+  background-color: var(--primary);
+  color: var(--on-surface);
 }
 </style>
