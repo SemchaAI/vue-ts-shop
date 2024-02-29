@@ -6,8 +6,6 @@ import { storeToRefs } from 'pinia'
 const cartStore = useCartStore()
 const { inCart } = storeToRefs(cartStore)
 
-const animationTrigger = () => {}
-
 defineProps({
   isAdmin: Boolean
 })
