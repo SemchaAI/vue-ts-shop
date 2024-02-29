@@ -20,5 +20,9 @@ const classes = ['link']
   &.router-link-active {
     color: var(--secondary);
   }
+  &:hover,
+  &:focus {
+    color: var(--primary-focused);
+  }
 }
 </style>
