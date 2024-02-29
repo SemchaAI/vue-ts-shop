@@ -49,7 +49,7 @@ const addDevice = () => {
   data.append('title', name.value)
   data.append('description', description.value)
   data.append('price', String(price.value))
-  data.append('count', String(cnt.value))
+  data.append('cnt', String(cnt.value))
   data.append('img', file.value as File)
   data.append('info', JSON.stringify(info.value))
   data.append('typeId', productStore.state.selectedType._id)
