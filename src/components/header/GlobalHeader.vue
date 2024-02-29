@@ -59,6 +59,7 @@ const logoutHandler = async () => {
 
 <style scoped>
 .header {
+  background-color: var(--background-soft);
 }
 
 .headerContainer {
