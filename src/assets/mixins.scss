@@ -41,3 +41,19 @@
 @mixin transition() {
   transition: all 0.5s ease;
 }
+
+// FLEX CENTERED
+
+@mixin flexCentered() {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+// COLOR MIXS
+
+@mixin colorMix($color) {
+  background-color: var(--#{$color});
+  color: var(--on-#{$color});
+}
+// skeleton

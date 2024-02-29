@@ -27,3 +27,11 @@
     padding: 0px;
   }
 }
+
+// ANIMATIONS
+
+@keyframes loading {
+  to {
+    background-position-x: -20%;
+  }
+}

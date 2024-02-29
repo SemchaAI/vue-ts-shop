@@ -28,13 +28,19 @@
 
 :root {
   --primary: #bb86fc;
+  --primary-focused: #dbb2ff;
   --primary-variant: #3700b3;
   --secondary: #03dac5;
+  --tertiary: #ffffff;
 
   --background: #292929; //idk why in pallette was 121212
+  --background-soft: #3d3d3d;
+
   --surface: #121212;
 
   --error: #cf6679;
+
+  --on-white-skeleton: #f1f2f3;
 
   --on-primary: #000000;
   --on-primary-hight-accent: rgba(0, 0, 0, 1);
@@ -52,7 +58,14 @@
 
   --btn-outline-border: rgba(255, 255, 255, 0.12);
 
+  --disabled: rgba(255, 255, 255, 0.12);
+
   --on-error: #000000;
+
+  // SHADOWS
+  --dp-0: box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+  --dp-1: box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.2), 0px 2px 1px 0px rgba(0, 0, 0, 0.12),
+    0px 1px 1px 0px rgba(0, 0, 0, 0.14);
 }
 
 @font-face {
