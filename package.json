@@ -24,6 +24,7 @@
     "swiper": "^11.0.7",
     "vue": "^3.4.15",
     "vue-final-modal": "^4.5.4",
+    "vue-inner-image-zoom": "^2.0.0",
     "vue-router": "^4.2.5"
   },
   "devDependencies": {
