@@ -63,9 +63,15 @@
   --on-error: #000000;
 
   // SHADOWS
-  --dp-0: box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
-  --dp-1: box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.2), 0px 2px 1px 0px rgba(0, 0, 0, 0.12),
+  --dp-0: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+  --dp-1: 0px 1px 3px 0px rgba(0, 0, 0, 0.2), 0px 2px 1px 0px rgba(0, 0, 0, 0.12),
     0px 1px 1px 0px rgba(0, 0, 0, 0.14);
+  --dp-16: 0px 8px 10px 0px rgba(0, 0, 0, 0.2), 0px 6px 30px 0px rgba(0, 0, 0, 0.12),
+    0px 16px 24px 0px rgba(0, 0, 0, 0.14);
+
+  // INDEXES
+  --header: 2;
+  --bannerBtns: 2;
 }
 
 @font-face {
@@ -144,6 +150,7 @@ svg {
 }
 
 body {
+  min-height: 100dvh;
   color: var(--primary);
   background: var(--background);
   transition:
