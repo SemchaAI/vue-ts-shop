@@ -4,8 +4,6 @@ import BannerSwiper from '@/components/sliders/BannerSwiper.vue'
 </script>
 
 <template>
-  <main>
-    <BannerSwiper />
-    <ProductList />
-  </main>
+  <BannerSwiper />
+  <ProductList />
 </template>
