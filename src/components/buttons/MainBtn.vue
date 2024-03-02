@@ -1,11 +1,12 @@
 <script setup lang="ts">
 import type { IBtn } from '@/components/buttons/MainBtn.interface'
 const props = withDefaults(defineProps<IBtn>(), {
-  type: 'text'
+  type: 'text',
+  icon: false
 })
 const { type } = props
 
-const classes = ['button', `${type}`]
+const classes = ['button', `${type}`, `${props.icon ? 'icon' : ''}`]
 </script>
 <template>
   <button :class="classes" type="button">
@@ -41,6 +42,16 @@ const classes = ['button', `${type}`]
   &:focus {
     color: var(--primary);
     background: var(--on-primary);
+  }
+}
+
+.icon {
+  padding: 5px;
+  &:hover,
+  &:focus {
+    fill: var(--tertiary);
+    border-color: var(--primary);
+    background-color: var(--primary);
   }
 }
 </style>
