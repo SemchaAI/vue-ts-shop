@@ -3,61 +3,53 @@ import { onMounted } from 'vue'
 import ChevronLeft from '../icons/ChevronLeft.vue'
 import ChevronRight from '../icons/ChevronRight.vue'
 
-type SwiperRef = (HTMLElement & { swiper: Swiper; initialize: () => void }) | null
+// doesn't work , idk why
+const customStyles: string[] = [
+  `.swiper-custom-bullet {
+  width: 14px;
+  height: 14px;
+  border: 2px solid var(--secondary);
+  border-radius: 50%;
+  background-color: var(--primary);
+  cursor: pointer;
+}`
+]
 
 onMounted(() => {
-  const swiperEl: SwiperRef = document.querySelector('.bannerSwiper')
+  const swiperEl = document.querySelector('swiper-container')
 
   const params = {
-    // injectStyles: [
-    //   `.swiper-pagination-bullet {
-    //       width: 8px;
-    //       height: 8px;
-    //       background-color: black;
-    //       text-align: center;
-    //       line-height: 10px;
-    //       font-size: 10px;
-    //       color: #000;
-    //       opacity: 1;
-    //       background: rgba(0, 0, 0, 0.2);
-    //     }
-    //     `
-    // ],
+    injectStyles: customStyles,
     pagination: {
-      el: '.swiper-pagination',
-      clickable: true
-      // renderBullet: function (index, className) {
-      //   return '<span class="' + className + '">' + '</span>'
-      // }
+      el: '.pagination',
+      bulletClass: 'swiper-custom-bullet',
+      bulletActiveClass: 'swiper-custom-bullet-active',
+      clickable: true,
+
+      renderBullet: function (index, className) {
+        return '<span class="' + className + '">' + '</span>'
+      }
     },
 
-    // idk why its doesnt work, implemented version in template
-    // navigation: {
-    //   nextEl: '.swiper-next',
-    //   prevEl: '.swiper-prev'
-    // },
+    navigation: {
+      nextEl: '.swiper-next',
+      prevEl: '.swiper-prev'
+    },
     loop: 'true'
 
-    // idk why its doesnt work, in template doesnt work too
-    // autoplay: true
+    // autoplay: {
+    //   delay: 3000
+    // }
   }
 
-  if (swiperEl) {
-    Object.assign(swiperEl, params)
-    swiperEl.initialize()
-  }
+  Object.assign(swiperEl, params)
+  swiperEl.initialize()
 })
 </script>
 <template>
   <div class="wrapper">
     <div class="swiperContainer">
-      <swiper-container
-        :navigation="{
-          nextEl: '.swiper-next',
-          prevEl: '.swiper-prev'
-        }"
-        class="bannerSwiper"
-      >
+      <swiper-container :init="false" class="bannerSwiper">
         <swiper-slide>
           <RouterLink :to="{ name: 'home' }">
             <picture
@@ -128,7 +120,7 @@ onMounted(() => {
           </RouterLink>
         </swiper-slide>
       </swiper-container>
-      <div class="swiper-pagination"></div>
+      <div class="pagination"></div>
       <button class="swiper-prev swiper-nav">
         <ChevronLeft class="chevron" />
       </button>
@@ -139,12 +131,32 @@ onMounted(() => {
   </div>
 </template>
 
+<style>
+/* .swiper-pagination-bullet2 {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background-color: var(--primary);
+  cursor: pointer;
+} */
+/* swiper-container::part(bullet) {
+  .swiper-pagination-bullet2 {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background-color: var(--primary);
+    cursor: pointer;
+  }
+} */
+</style>
+
 <style scoped lang="scss">
 .swiperContainer {
-  margin: 0 50px;
+  margin: 10px 0;
   max-width: 1340px;
   position: relative;
 }
+// NAVIGATION
 .swiper-nav {
   position: absolute;
   width: 40px;
@@ -165,15 +177,40 @@ onMounted(() => {
   }
 }
 .swiper-prev {
-  left: -45px;
+  left: 0px;
+  z-index: var(--bannerBtns);
 }
 .swiper-next {
-  right: -45px;
+  right: 0px;
+  z-index: var(--bannerBtns);
 }
 .chevron {
 }
 .left {
 }
 .right {
+}
+// PAGINATION
+.pagination {
+  padding: 10px 0;
+  display: flex;
+  justify-content: center;
+  gap: 4px;
+  z-index: var(--bannerBtns);
+
+  width: 100%;
+  position: absolute;
+  bottom: 0;
+}
+.swiper-pagination-bullet2 {
+  width: 8px;
+  height: 8px;
+  background-color: black;
+  text-align: center;
+  line-height: 10px;
+  font-size: 10px;
+  color: #000;
+  opacity: 1;
+  background: rgba(0, 0, 0, 0.2);
 }
 </style>
