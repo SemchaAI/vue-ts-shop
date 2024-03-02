@@ -12,7 +12,9 @@ register()
 
 <template>
   <GlobalHeader />
-  <RouterView />
+  <main class="main">
+    <RouterView />
+  </main>
   <ModalsContainer />
   <FooterComponent />
 </template>
