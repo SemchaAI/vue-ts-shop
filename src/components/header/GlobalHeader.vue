@@ -60,6 +60,10 @@ const logoutHandler = async () => {
 <style scoped>
 .header {
   background-color: var(--background-soft);
+  box-shadow: var(--dp-0);
+  position: sticky;
+  top: 0;
+  z-index: var(--header);
 }
 
 .headerContainer {
