@@ -35,6 +35,7 @@ const { state } = storeToRefs(productsStore)
   background-color: var(--surface);
   height: fit-content;
   @include body1Typo;
+  box-shadow: var(--dp-0);
 }
 .type {
   padding: 10px;
