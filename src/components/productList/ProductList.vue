@@ -80,8 +80,11 @@ watch([page, selectedType, title], async (newVal, oldVal) => {
               </ul>
               <ProductsPagination />
             </div>
-            <div v-else class="productsList">
-              <ProductCard :key="i" v-for="i in 3" :list="null" />
+            <div v-else>
+              <ul class="productsList">
+                <ProductCard :key="i" v-for="(_, i) in products" :list="null" />
+              </ul>
+              <ProductsPagination />
             </div>
           </div>
         </div>
