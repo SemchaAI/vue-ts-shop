@@ -120,12 +120,13 @@ const removeHandler = async () => {
 .productTitle {
   margin-top: 15px;
 
-  height: 2lh;
-  overflow: hidden;
-  display: -webkit-box;
-  -webkit-line-clamp: 3;
-  -webkit-box-orient: vertical;
-  text-overflow: ellipsis;
+  @include smartText(2lh);
+  // height: 2lh;
+  // overflow: hidden;
+  // display: -webkit-box;
+  // -webkit-line-clamp: 3;
+  // -webkit-box-orient: vertical;
+  // text-overflow: ellipsis;
 
   font-size: 20px;
   font-weight: 700;
