@@ -1,23 +1,37 @@
 <script setup lang="ts">
-import { VueFinalModal } from 'vue-final-modal'
 import { ref } from 'vue'
+import { useForm } from 'vee-validate'
+import { object, string } from 'yup'
+import { toTypedSchema } from '@vee-validate/yup'
+
+import { VueFinalModal } from 'vue-final-modal'
+
 import { useProductsStore } from '@/stores/product'
 
+import InputComponent from '../Input/InputComponent.vue'
+import MainBtn from '../buttons/MainBtn.vue'
+
 const productsStore = useProductsStore()
-const input = ref('')
+
+const error = ref<string | null>(null)
+
+const { defineField, isSubmitting, meta, values, errors } = useForm({
+  validationSchema: toTypedSchema(
+    object({
+      type: string().min(4).required()
+    })
+  )
+})
+const [type, typeAttrs] = defineField('type')
 
 const addType = async () => {
-  try {
-    await productsStore.createType({ name: input.value })
+  const response = await productsStore.createType({ name: values.type })
+  console.log('response', response)
+  error.value = response
+  if (!response) {
     emit('confirm')
-  } catch (error) {
-    console.log(error)
   }
 }
-
-// defineProps<{
-//   title?: string
-// }>()
 
 const emit = defineEmits<{
   (e: 'confirm'): void
@@ -31,46 +45,74 @@ const emit = defineEmits<{
     overlay-transition="vfm-fade"
     content-transition="vfm-fade"
   >
-    <h1>Добавить тип</h1>
-    <form>
+    <h1 class="title">Добавить тип</h1>
+    <form class="form" @submit.prevent="addType">
       <div class="field">
-        <div><label for="type">Тип продукта:</label></div>
-        <input v-model="input" placeholder="Введите название типа" type="еу" id="type" required />
+        <div><label class="label" for="type">Тип продукта:</label></div>
+        <div>
+          <InputComponent
+            v-model="type"
+            v-bind="typeAttrs"
+            rules="minLength:4"
+            placeholder="Введите название типа"
+            type="text"
+            id="type"
+            required
+          />
+          <div v-if="errors.type" class="error">{{ errors.type }}</div>
+          <div v-else class="error"></div>
+        </div>
+      </div>
+      <div class="modalControls">
+        <MainBtn :disabled="!meta.valid" type="submit">{{
+          isSubmitting ? 'Отправляется...' : 'Отправить'
+        }}</MainBtn>
+        <MainBtn @click="emit('confirm')">Закрыть</MainBtn>
       </div>
     </form>
-    <div class="ModalControls">
-      <button @click="addType">Добавить</button>
-      <button @click="emit('confirm')">Закрыть</button>
+    <div class="errorComponent" v-if="error">
+      <div class="">{{ error }}</div>
+      <div class="">Попробуйте обновить страницу</div>
     </div>
   </VueFinalModal>
 </template>
 
-<style>
-.confirm-modal {
+<style scoped lang="scss">
+.title {
   display: flex;
   justify-content: center;
-  align-items: center;
+  @include headline5Typo;
 }
-.confirm-modal-content {
+.form {
+  @include body2Typo;
+}
+.field {
   display: flex;
   flex-direction: column;
-  padding: 1rem;
-  background: #fff;
-  border-radius: 0.5rem;
+  gap: 10px;
 }
-.confirm-modal-content > * + * {
-  margin: 0.5rem 0;
+.label {
+  @include body1Typo;
 }
-.confirm-modal-content h1 {
-  font-size: 1.375rem;
+.error {
+  padding-left: 5px;
+  display: flex;
+  align-items: center;
+  color: var(--error);
+  height: 24px;
 }
-.confirm-modal-content button {
-  margin: 0.25rem 0 0 auto;
-  padding: 0 8px;
-  border: 1px solid;
-  border-radius: 0.5rem;
+.modalControls {
+  display: flex;
+  gap: 10px;
 }
-.dark .confirm-modal-content {
-  background: #000;
+.errorComponent {
+  background: var(--background-soft);
+  position: absolute;
+  top: 20px;
+  right: 20px;
+
+  padding: 20px;
+  border-radius: 8px;
+  color: var(--tertiary);
 }
 </style>
