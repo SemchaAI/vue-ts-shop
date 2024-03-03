@@ -1,15 +1,16 @@
 <script setup lang="ts">
 import type { IBtn } from '@/components/buttons/MainBtn.interface'
 const props = withDefaults(defineProps<IBtn>(), {
-  type: 'text',
-  icon: false
+  version: 'text',
+  icon: false,
+  type: 'button'
 })
-const { type } = props
+const { version, type } = props
 
-const classes = ['button', `${type}`, `${props.icon ? 'icon' : ''}`]
+const classes = ['button', `${version}`, `${props.icon ? 'icon' : ''}`]
 </script>
 <template>
-  <button :class="classes" type="button">
+  <button :type="type" :class="classes">
     <slot></slot>
   </button>
 </template>
@@ -21,6 +22,10 @@ const classes = ['button', `${type}`, `${props.icon ? 'icon' : ''}`]
   padding: 10px 15px;
   border: 1px solid transparent;
   border-radius: 4px;
+
+  &:disabled {
+    opacity: 0.5;
+  }
 }
 .text {
   &:hover,

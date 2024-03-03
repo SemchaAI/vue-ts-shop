@@ -1,6 +1,7 @@
 export interface IBtn {
-  type?: TBtn
+  version?: TBtn
   icon?: boolean
+  type?: 'submit' | 'button'
 }
 
 export type TBtn = 'text' | 'outline' | 'contain'
