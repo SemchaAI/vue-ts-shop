@@ -26,7 +26,7 @@ onMounted(() => {
       bulletActiveClass: 'swiper-custom-bullet-active',
       clickable: true,
 
-      renderBullet: function (index, className) {
+      renderBullet: function (index: number, className: string) {
         return '<span class="' + className + '">' + '</span>'
       }
     },
