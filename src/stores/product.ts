@@ -78,7 +78,8 @@ export const useProductsStore = defineStore('products', () => {
       const response = await ProductService.createType(type)
     } catch (e) {
       if (e instanceof AxiosError) {
-        console.log(e.response?.data?.message)
+        // console.log(e.response?.data?.message)
+        return e.response?.data?.message
       } else {
         console.log('WTF WITH THIS ERROR?', e)
       }
