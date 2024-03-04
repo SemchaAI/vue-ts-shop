@@ -1,22 +1,52 @@
 <script setup lang="ts">
-import { defineProps } from 'vue'
-const props = defineProps({
-  modelValue: String
+import { defineProps, defineOptions } from 'vue'
+defineOptions({
+  inheritAttrs: false
+})
+
+interface TProps {
+  modelValue?: string | number
+  error?: string | null | 'never'
+  myType?: 'text' | 'number' | 'email' | 'file'
+}
+
+const props = withDefaults(defineProps<TProps>(), {
+  modelValue: '',
+  error: null,
+  myType: 'text'
 })
 
 const emit = defineEmits(['update:modelValue', 'blur'])
 
 const inputHandler = (event: Event) => {
-  emit('update:modelValue', event.target.value)
+  const target = event.target as HTMLInputElement
+  if (target) {
+    emit('update:modelValue', target.value)
+  }
 }
+
+const classes = [props.myType]
 </script>
 
 <template>
-  <input :value="modelValue" @input="inputHandler" @blur="$emit('blur')" class="input" />
+  <div>
+    <input
+      v-bind="$attrs"
+      :value="modelValue"
+      @input="inputHandler"
+      @blur="$emit('blur')"
+      :class="classes"
+      :id="$attrs.id"
+    />
+    <div v-if="error !== 'never'">
+      <div v-if="error" class="error">{{ error }}</div>
+      <div v-else class="error"></div>
+    </div>
+  </div>
 </template>
 
 <style scoped lang="scss">
-.input {
+.text {
   height: 50px;
   width: 100%;
   padding: 0 20px;
@@ -39,5 +69,15 @@ const inputHandler = (event: Event) => {
   &:focus + .icon {
     fill: var(--secondary);
   }
+}
+.file {
+  display: none;
+}
+.error {
+  padding-left: 5px;
+  display: flex;
+  align-items: center;
+  color: var(--error);
+  height: 24px;
 }
 </style>
