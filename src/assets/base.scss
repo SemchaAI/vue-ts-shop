@@ -70,8 +70,19 @@
     0px 16px 24px 0px rgba(0, 0, 0, 0.14);
 
   // INDEXES
-  --header: 2;
+  --header: 3;
   --bannerBtns: 2;
+  /* modal library have 1000 index */
+  --z-error: 1001;
+
+  /* Component Controls: Clear, Open Indicator */
+  --vs-controls-color: var(--primary);
+  --vs-border-color: var(--primary);
+  --vs-dropdown-bg: var(--background);
+  --vs-dropdown-color: var(--primary);
+  --vs-dropdown-option-color: var(--primary);
+  --vs-selected-color: var(--tertiary);
+  --vs-search-input-color: var(--on-surface-disabled-accent);
 }
 
 @font-face {
@@ -175,4 +186,10 @@ button {
   background-color: transparent;
 
   cursor: pointer;
+}
+
+#app {
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
 }
