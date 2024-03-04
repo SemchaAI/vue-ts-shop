@@ -46,7 +46,7 @@ const logoutHandler = async () => {
         <MainLink class="logoLink headerBlock" to="home">LOGO</MainLink>
         <div v-if="state.isAuth" class="user headerBlock">
           {{ state.user.email }}
-          <MainBtn type="contain" @click.prevent="logoutHandler">Logout</MainBtn>
+          <MainBtn version="contain" @click.prevent="logoutHandler">Logout</MainBtn>
         </div>
         <div class="headerBlock" v-if="state.isLoading">
           <LoadingSpinner />
