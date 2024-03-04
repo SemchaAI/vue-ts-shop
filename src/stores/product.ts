@@ -3,6 +3,7 @@ import { defineStore } from 'pinia'
 import { type IProduct, type IType, type IBrand, type ITypeDTO, EStatus } from '@/models/IProduct'
 import { AxiosError } from 'axios'
 import { ProductService, type TProductDTO } from '@/services/product.service'
+import { useErrorStore } from './erorrs'
 
 export const useProductsStore = defineStore('products', () => {
   const state = ref({
@@ -27,6 +28,11 @@ export const useProductsStore = defineStore('products', () => {
   const limit = computed(() => state.value.limit)
   const title = computed(() => state.value.title)
   const selectedType = computed(() => state.value.selectedType._id)
+
+  //START ERROR BLOCK
+  const error = useErrorStore()
+
+  // END ERROR BLOCK
 
   function setProducts(arr: IProduct[]) {
     state.value.products = arr
@@ -79,6 +85,10 @@ export const useProductsStore = defineStore('products', () => {
     } catch (e) {
       if (e instanceof AxiosError) {
         // console.log(e.response?.data?.message)
+        error.setError({
+          message: e.response?.data?.message,
+          critical: false
+        })
         return e.response?.data?.message
       } else {
         console.log('WTF WITH THIS ERROR?', e)
