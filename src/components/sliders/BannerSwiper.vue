@@ -47,108 +47,91 @@ onMounted(() => {
 })
 </script>
 <template>
-  <div class="wrapper">
-    <div class="swiperContainer">
-      <swiper-container :init="false" class="bannerSwiper">
-        <swiper-slide>
-          <RouterLink :to="{ name: 'home' }">
-            <picture
-              ><source
-                media="(min-width: 1024px)"
-                srcset="https://api.mi.md/media/carousels/Xiaomi_14_mi-desktop-T6ATY0.webp" />
-              <source
-                media="(min-width: 768px)"
-                srcset="https://api.mi.md/media/carousels/Xiaomi_14_mi-tablet-HW9MPO.webp" />
-              <img
-                src="https://api.mi.md/media/carousels/Xiaomi_14_mi-mobile-IXIYFW.webp"
-                width="1340"
-                height="560"
-                loading="lazy"
-                sizes="sm:100vw md:50vw lg:400px"
-                srcset="
-                  https://api.mi.md/media/carousels/Xiaomi_14_mi-mobile-IXIYFW.webp 640w,
-                  https://api.mi.md/media/carousels/Xiaomi_14_mi-mobile-IXIYFW.webp 384w,
-                  https://api.mi.md/media/carousels/Xiaomi_14_mi-mobile-IXIYFW.webp 400w
-                "
-            /></picture>
-          </RouterLink>
-        </swiper-slide>
-        <swiper-slide>
-          <RouterLink :to="{ name: 'home' }">
-            <picture
-              ><source
-                media="(min-width: 1024px)"
-                srcset="https://api.mi.md/media/carousels/Xiaomi_14_mi-desktop-T6ATY0.webp" />
-              <source
-                media="(min-width: 768px)"
-                srcset="https://api.mi.md/media/carousels/Xiaomi_14_mi-tablet-HW9MPO.webp" />
-              <img
-                src="https://api.mi.md/media/carousels/Xiaomi_14_mi-mobile-IXIYFW.webp"
-                width="1340"
-                height="560"
-                loading="lazy"
-                sizes="sm:100vw md:50vw lg:400px"
-                srcset="
-                  https://api.mi.md/media/carousels/Xiaomi_14_mi-mobile-IXIYFW.webp 640w,
-                  https://api.mi.md/media/carousels/Xiaomi_14_mi-mobile-IXIYFW.webp 384w,
-                  https://api.mi.md/media/carousels/Xiaomi_14_mi-mobile-IXIYFW.webp 400w
-                "
-            /></picture>
-          </RouterLink>
-        </swiper-slide>
-        <swiper-slide>
-          <RouterLink :to="{ name: 'home' }">
-            <picture
-              ><source
-                media="(min-width: 1024px)"
-                srcset="https://api.mi.md/media/carousels/Xiaomi_14_mi-desktop-T6ATY0.webp" />
-              <source
-                media="(min-width: 768px)"
-                srcset="https://api.mi.md/media/carousels/Xiaomi_14_mi-tablet-HW9MPO.webp" />
-              <img
-                src="https://api.mi.md/media/carousels/Xiaomi_14_mi-mobile-IXIYFW.webp"
-                width="1340"
-                height="560"
-                loading="lazy"
-                sizes="sm:100vw md:50vw lg:400px"
-                srcset="
-                  https://api.mi.md/media/carousels/Xiaomi_14_mi-mobile-IXIYFW.webp 640w,
-                  https://api.mi.md/media/carousels/Xiaomi_14_mi-mobile-IXIYFW.webp 384w,
-                  https://api.mi.md/media/carousels/Xiaomi_14_mi-mobile-IXIYFW.webp 400w
-                "
-            /></picture>
-          </RouterLink>
-        </swiper-slide>
-      </swiper-container>
-      <div class="pagination"></div>
-      <button class="swiper-prev swiper-nav">
-        <ChevronLeft class="chevron" />
-      </button>
-      <button class="swiper-next swiper-nav">
-        <ChevronRight class="chevron" />
-      </button>
+  <div class="swiper">
+    <div class="wrapper">
+      <div class="swiperContainer">
+        <swiper-container :init="false" class="bannerSwiper">
+          <swiper-slide>
+            <RouterLink :to="{ name: 'home' }">
+              <picture
+                ><source
+                  media="(min-width: 1024px)"
+                  srcset="https://api.mi.md/media/carousels/Xiaomi_14_mi-desktop-T6ATY0.webp" />
+                <source
+                  media="(min-width: 768px)"
+                  srcset="https://api.mi.md/media/carousels/Xiaomi_14_mi-tablet-HW9MPO.webp" />
+                <img
+                  src="https://api.mi.md/media/carousels/Xiaomi_14_mi-mobile-IXIYFW.webp"
+                  width="1340"
+                  height="560"
+                  loading="lazy"
+                  sizes="sm:100vw md:50vw lg:400px"
+                  srcset="
+                    https://api.mi.md/media/carousels/Xiaomi_14_mi-mobile-IXIYFW.webp 640w,
+                    https://api.mi.md/media/carousels/Xiaomi_14_mi-mobile-IXIYFW.webp 384w,
+                    https://api.mi.md/media/carousels/Xiaomi_14_mi-mobile-IXIYFW.webp 400w
+                  "
+              /></picture>
+            </RouterLink>
+          </swiper-slide>
+          <swiper-slide>
+            <RouterLink :to="{ name: 'home' }">
+              <picture
+                ><source
+                  media="(min-width: 1024px)"
+                  srcset="https://api.mi.md/media/carousels/Xiaomi_14_mi-desktop-T6ATY0.webp" />
+                <source
+                  media="(min-width: 768px)"
+                  srcset="https://api.mi.md/media/carousels/Xiaomi_14_mi-tablet-HW9MPO.webp" />
+                <img
+                  src="https://api.mi.md/media/carousels/Xiaomi_14_mi-mobile-IXIYFW.webp"
+                  width="1340"
+                  height="560"
+                  loading="lazy"
+                  sizes="sm:100vw md:50vw lg:400px"
+                  srcset="
+                    https://api.mi.md/media/carousels/Xiaomi_14_mi-mobile-IXIYFW.webp 640w,
+                    https://api.mi.md/media/carousels/Xiaomi_14_mi-mobile-IXIYFW.webp 384w,
+                    https://api.mi.md/media/carousels/Xiaomi_14_mi-mobile-IXIYFW.webp 400w
+                  "
+              /></picture>
+            </RouterLink>
+          </swiper-slide>
+          <swiper-slide>
+            <RouterLink :to="{ name: 'home' }">
+              <picture
+                ><source
+                  media="(min-width: 1024px)"
+                  srcset="https://api.mi.md/media/carousels/Xiaomi_14_mi-desktop-T6ATY0.webp" />
+                <source
+                  media="(min-width: 768px)"
+                  srcset="https://api.mi.md/media/carousels/Xiaomi_14_mi-tablet-HW9MPO.webp" />
+                <img
+                  src="https://api.mi.md/media/carousels/Xiaomi_14_mi-mobile-IXIYFW.webp"
+                  width="1340"
+                  height="560"
+                  loading="lazy"
+                  sizes="sm:100vw md:50vw lg:400px"
+                  srcset="
+                    https://api.mi.md/media/carousels/Xiaomi_14_mi-mobile-IXIYFW.webp 640w,
+                    https://api.mi.md/media/carousels/Xiaomi_14_mi-mobile-IXIYFW.webp 384w,
+                    https://api.mi.md/media/carousels/Xiaomi_14_mi-mobile-IXIYFW.webp 400w
+                  "
+              /></picture>
+            </RouterLink>
+          </swiper-slide>
+        </swiper-container>
+        <div class="pagination"></div>
+        <button class="swiper-prev swiper-nav">
+          <ChevronLeft class="chevron" />
+        </button>
+        <button class="swiper-next swiper-nav">
+          <ChevronRight class="chevron" />
+        </button>
+      </div>
     </div>
   </div>
 </template>
-
-<style>
-/* .swiper-pagination-bullet2 {
-  width: 24px;
-  height: 24px;
-  border-radius: 50%;
-  background-color: var(--primary);
-  cursor: pointer;
-} */
-/* swiper-container::part(bullet) {
-  .swiper-pagination-bullet2 {
-    width: 24px;
-    height: 24px;
-    border-radius: 50%;
-    background-color: var(--primary);
-    cursor: pointer;
-  }
-} */
-</style>
 
 <style scoped lang="scss">
 .swiperContainer {
