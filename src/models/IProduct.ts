@@ -9,6 +9,7 @@ export interface IProduct {
   description: string
   cnt: number
   info: IInfo[]
+  thumbnails: IThumbnails
 }
 export interface IType {
   _id: string
@@ -25,6 +26,11 @@ export interface IInfo {
   _id: string
   title: string
   description: string
+  productId: string
+}
+export interface IThumbnails {
+  _id: string
+  img: string[]
   productId: string
 }
 
