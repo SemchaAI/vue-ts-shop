@@ -3,6 +3,7 @@ import { useModal } from 'vue-final-modal'
 import ModalType from '@/components/modals/ModalType.vue'
 import ModalBrand from '@/components/modals/ModalBrand.vue'
 import ModalProduct from '@/components/modals/ModalProduct.vue'
+import MainBtn from '@/components/buttons/MainBtn.vue'
 
 const ModalTypeInstance = useModal({
   component: ModalType,
@@ -34,19 +35,36 @@ const ModalProductInstance = useModal({
   <section class="admin">
     <div class="wrapper">
       <div class="adminContainer">
-        <h1>Admin Panel</h1>
+        <h1 class="adminTitle">Admin Panel</h1>
         <div class="adminContent">
           <div class="adminBlock">
-            <button @click="ModalTypeInstance.open">Add type</button>
+            <MainBtn version="contain" @click="ModalTypeInstance.open">Add type</MainBtn>
           </div>
           <div class="adminBlock">
-            <button @click="ModalBrandInstance.open">Add Brand</button>
+            <MainBtn disabled version="contain" @click="ModalBrandInstance.open">Add Brand</MainBtn>
           </div>
           <div class="adminBlock">
-            <button @click="ModalProductInstance.open">Add Product</button>
+            <MainBtn version="contain" @click="ModalProductInstance.open">Add Product</MainBtn>
           </div>
         </div>
       </div>
     </div>
   </section>
 </template>
+
+<style scoped lang="scss">
+.admin {
+  margin-top: 40px;
+}
+.adminTitle {
+  text-align: center;
+}
+.adminContent {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.adminBlock {
+  display: flex;
+}
+</style>
