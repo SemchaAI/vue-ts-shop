@@ -44,11 +44,11 @@ const logoutHandler = async () => {
     <div class="wrapper">
       <div class="headerContainer">
         <MainLink class="logoLink headerBlock" to="home">LOGO</MainLink>
-        <div v-if="state.isAuth" class="user headerBlock">
-          {{ state.user.email }}
+        <div v-if="state.isAuth && !state.isLoading" class="user headerBlock">
+          {{ state.user.name }}
           <MainBtn version="contain" @click.prevent="logoutHandler">Logout</MainBtn>
         </div>
-        <div class="headerBlock" v-if="state.isLoading">
+        <div class="loadingSpinner" v-if="state.isLoading">
           <LoadingSpinner />
         </div>
         <HeaderNavigation :isAdmin="isAdmin" />
@@ -78,6 +78,13 @@ const logoutHandler = async () => {
   justify-content: center;
   width: 100%;
 }
+
+.loadingSpinner {
+  display: flex;
+  width: 80px;
+  height: 160px;
+}
+
 .logoLink {
   color: var(--primary);
   justify-content: flex-start;
