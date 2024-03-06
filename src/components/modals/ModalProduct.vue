@@ -26,6 +26,11 @@ const { defineField, isSubmitting, meta, values, errors } = useForm({
 })
 
 const { remove, push, fields } = useFieldArray('info')
+const {
+  remove: removeThumbnail,
+  push: pushThumbnail,
+  fields: thumbnails
+} = useFieldArray('thumbnails')
 
 const [name, nameAttrs] = defineField('name')
 const [description, descriptionAttrs] = defineField('description')
@@ -39,6 +44,15 @@ let types = ref<IType[]>([])
 const selectFile = (e: any) => {
   file.value = e.target.files[0]
 }
+const selectFileThumbnail = (e: Event, index: number) => {
+  const target = e.target as HTMLInputElement
+  console.log(thumbnails)
+  console.log(index)
+  console.log(thumbnails.value[index].value)
+  if (target.files !== null) {
+    thumbnails.value[index].value = target.files[0]
+  }
+}
 const addDevice = () => {
   // console.log(file, name, description, price, cnt, fields, type)
   let data = new FormData()
@@ -47,6 +61,10 @@ const addDevice = () => {
   data.append('price', String(price.value))
   data.append('cnt', String(cnt.value))
   data.append('img', file.value as File)
+  //
+  thumbnails.value.map((el, index) => data.append(`thumbnail${index}`, el.value as File))
+  //
+
   data.append('info', JSON.stringify(fields.value))
   data.append('typeId', type.value)
 
@@ -147,6 +165,24 @@ const emit = defineEmits<{
           id="img"
           required
         />
+      </div>
+      <div class="infoContainer">
+        <MainBtn version="contain" @click="pushThumbnail('')">Добавить новое изображение</MainBtn>
+        <div v-auto-animate class="fieldsContainer" v-if="thumbnails.length > 0">
+          <div :key="thumbnail.key" v-for="(thumbnail, idx) in thumbnails" class="row">
+            <div><label class="fakeBtn" :for="thumbnail.key + 'img'">Доп Изображение</label></div>
+            <InputComponent
+              @change="selectFileThumbnail($event, idx)"
+              v-bind="thumbnail"
+              type="file"
+              myType="file"
+              required
+              :id="thumbnail.key + 'img'"
+            />
+            <MainBtn version="contain" @click="removeThumbnail(idx)">Удалить</MainBtn>
+          </div>
+          <!-- <button @click.prevent="remove(idx)">Удалить характеристику</button> -->
+        </div>
       </div>
       <div class="infoContainer">
         <MainBtn version="contain" @click="push('')">Добавить новое свойство</MainBtn>
