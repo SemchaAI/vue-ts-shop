@@ -1,4 +1,5 @@
 import type { IAuthResponse } from '@/models/response/AuthResponce'
+import { useErrorStore } from '@/stores/erorrs'
 import axios, { Axios, AxiosError } from 'axios'
 
 const server = axios.create({
@@ -28,8 +29,13 @@ server.interceptors.response.use(
         console.log('Токен обновлен')
         // console.log(server.request(originalRequest))
         return server.request(originalRequest)
-      } catch (error) {
-        console.log('НЕ АВТОРИЗОВАН')
+      } catch (e) {
+        //START ERROR BLOCK
+        const error = useErrorStore()
+        error.setError({
+          message: 'Вы не авторизованны. Пожалуйста, авторизуйтесь. Или обновите страницу.',
+          critical: false
+        })
       }
     }
     throw error
