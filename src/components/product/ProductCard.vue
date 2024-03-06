@@ -5,6 +5,12 @@ import BtnPlus from '../icons/btnPlus.vue'
 import OutOfStock from '../icons/OutOfStock.vue'
 import type { IProduct } from '../../models/IProduct'
 import { useUserStore } from '@/stores/user'
+import FavoriteIcon from '../icons/FavoriteIcon.vue'
+import CheckIcon from '../icons/CheckIcon.vue'
+import CloseIcon from '../icons/CloseIcon.vue'
+import MainBtn from '../buttons/MainBtn.vue'
+import { useFavoriteStore } from '@/stores/favorite'
+import { ref, onMounted } from 'vue'
 
 const props = defineProps<{
   list: IProduct | null
@@ -14,7 +20,18 @@ const url = import.meta.env.VITE_BASE_URL_BD
 
 const cartStore = useCartStore()
 const userStore = useUserStore()
+const favoriteStore = useFavoriteStore()
+
 const { state } = storeToRefs(userStore)
+const favorClass = ref('inactive')
+
+const favorHandler = () => {
+  if (list) {
+    console.log(list)
+    favoriteStore.favoriteHandler(list)
+    favorClass.value = favoriteStore.isFavorite(list) ? 'active' : 'inactive'
+  }
+}
 
 const clickHandler = async () => {
   if (list) {
@@ -26,6 +43,12 @@ const removeHandler = async () => {
     await cartStore.deleteOne(state.value.user.id, list._id)
   }
 }
+
+onMounted(() => {
+  if (list) {
+    favorClass.value = favoriteStore.isFavorite(list) ? 'active' : 'inactive'
+  }
+})
 </script>
 
 <template>
@@ -47,18 +70,25 @@ const removeHandler = async () => {
       </div>
       <div class="productControls">
         <div class="outOfStockContainer" v-if="cartStore.isInCart(list._id)">
-          <p class="productText">Added</p>
-          <button @click="removeHandler">Remove from Cart</button>
+          <p class="productText"><CheckIcon /> Добавлен</p>
+          <MainBtn class="productBtn" :icon="true" version="outline" @click="removeHandler">
+            <CloseIcon width="24" height="24" />
+          </MainBtn>
         </div>
         <div class="outOfStockContainer" v-else-if="list.cnt <= 0">
-          <p class="productText">Out of Stock</p>
+          <p class="productText">Отсутствует</p>
           <!-- <div class="productBtnContainer"> -->
           <OutOfStock class="productBtnContainer" />
           <!-- </div> -->
         </div>
-        <button @click="clickHandler" class="productBtnContainer" v-else>
-          <BtnPlus />
-        </button>
+        <div class="productBtnsContainer" v-else>
+          <button @click="favorHandler" class="productBtnContainer">
+            <FavoriteIcon class="favoriteIcon" :class="favorClass" />
+          </button>
+          <button @click="clickHandler" class="productBtnContainer">
+            <BtnPlus />
+          </button>
+        </div>
       </div>
     </div>
   </li>
@@ -168,9 +198,19 @@ const removeHandler = async () => {
 .productControls {
   display: flex;
 }
+.productBtn {
+  display: flex;
+}
 .productBtnContainer {
   width: 40px;
   height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.productBtnsContainer {
+  display: flex;
+  align-items: center;
 }
 .outOfStockContainer {
   display: flex;
@@ -180,6 +220,7 @@ const removeHandler = async () => {
   display: flex;
   align-self: center;
   color: var(--negative);
+  fill: var(--error);
 }
 
 /* skeleton */
@@ -211,5 +252,16 @@ const removeHandler = async () => {
   height: 200px;
   background-color: var(--on-white-skeleton);
   border-radius: 20px;
+}
+
+// favorite
+.favoriteIcon {
+  @include transition;
+}
+.active {
+  fill: var(--favorite);
+}
+.inactive {
+  fill: var(--primary);
 }
 </style>
