@@ -39,9 +39,9 @@ export const useUserStore = defineStore('user', () => {
       }
     }
   }
-  async function registration(email: string, password: string) {
+  async function registration(email: string, password: string, name: string) {
     try {
-      const response = await UserService.registration(email, password)
+      const response = await UserService.registration(email, password, name)
       localStorage.setItem('auth', response.data.accessToken)
       setAuth(true)
       setUser(response.data.user)
