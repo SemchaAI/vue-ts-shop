@@ -23,7 +23,7 @@ const removeHandler = async (id: string): Promise<void> => {
     <div class="wrapper">
       <div class="cartContainer">
         <h1 class="cartTitle">Cart</h1>
-        <div v-if="items" class="cartBlock">
+        <div v-if="items.length > 0" class="cartBlock">
           <ul v-auto-animate class="cartItems">
             <li class="cartItem" v-for="item in items" :key="item._id">
               <div class="cartItemContainer">
@@ -41,7 +41,7 @@ const removeHandler = async (id: string): Promise<void> => {
                 </div>
               </div>
               <MainBtn
-                type="outline"
+                version="outline"
                 :icon="true"
                 class="cartItemBtn"
                 @click="removeHandler(item._id)"
@@ -63,7 +63,8 @@ const removeHandler = async (id: string): Promise<void> => {
             >
           </div>
         </div>
-        <div class="cartError" v-else>Error.Cart wasnt loaded or its empty please try again</div>
+        <div v-else-if="items.length === 0" class="emptyCart">Корзина пуста</div>
+        <div class="cartError" v-else>Ошибка. Корзина не была загружена</div>
       </div>
     </div>
   </section>
@@ -139,7 +140,8 @@ const removeHandler = async (id: string): Promise<void> => {
 }
 .cartOrder {
   padding: 20px;
-  height: fit-content;
+  max-height: 240px;
+  // height: fit-content;
 
   display: flex;
   flex-direction: column;
@@ -179,5 +181,13 @@ const removeHandler = async (id: string): Promise<void> => {
   &:focus {
     color: var(--primary-focused);
   }
+}
+
+.emptyCart {
+  min-height: 300px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 </style>
