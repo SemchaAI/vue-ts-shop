@@ -13,8 +13,12 @@ export const UserService = {
   async login(email: string, password: string): Promise<AxiosResponse<IAuthResponse>> {
     return server.post<IAuthResponse>(USER_ROUTE_LOGIN, { email, password })
   },
-  async registration(email: string, password: string): Promise<AxiosResponse<IAuthResponse>> {
-    return server.post<IAuthResponse>(USER_ROUTE_REGISTRATION, { email, password })
+  async registration(
+    email: string,
+    password: string,
+    name: string
+  ): Promise<AxiosResponse<IAuthResponse>> {
+    return server.post<IAuthResponse>(USER_ROUTE_REGISTRATION, { email, password, name })
   },
   async logout(): Promise<void> {
     return server.post(USER_ROUTE_LOGOUT)
