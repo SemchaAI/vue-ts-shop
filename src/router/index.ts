@@ -35,6 +35,7 @@ const router = createRouter({
       path: '/cart',
       name: 'cart',
       beforeEnter: (to, from, next) => {
+        useUserStore().checkAuth()
         !useUserStore().isLogin ? next({ name: 'login' }) : next()
       },
       component: () => import('@/views/CartView.vue')
@@ -51,6 +52,11 @@ const router = createRouter({
       path: '/order',
       name: 'order',
       component: () => import('@/views/OrderView.vue')
+    },
+    {
+      path: '/favorite',
+      name: 'favorite',
+      component: () => import('@/views/FavoriteView.vue')
     },
     {
       path: '/:catchAll(.*)',
