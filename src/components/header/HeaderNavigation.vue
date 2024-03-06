@@ -1,10 +1,13 @@
 <script setup lang="ts">
 import { useCartStore } from '@/stores/cart'
+import { useFavoriteStore } from '@/stores/favorite'
 import MainLink from '../links/MainLink.vue'
 import { storeToRefs } from 'pinia'
 
 const cartStore = useCartStore()
+const favoriteStore = useFavoriteStore()
 const { inCart } = storeToRefs(cartStore)
+const { inFavorite } = storeToRefs(favoriteStore)
 
 defineProps({
   isAdmin: Boolean
@@ -13,13 +16,22 @@ defineProps({
 <template>
   <nav class="headerNav">
     <MainLink v-if="isAdmin" to="admin">Admin</MainLink>
-    <MainLink class="cart" to="cart"
+    <MainLink class="relativeBlock" to="cart"
       >Cart
       <Transition
         enter-active-class="animate__animated animate__bounceIn"
         leave-active-class="animate__animated animate__bounceIn"
       >
         <div :key="inCart" class="badge" v-if="inCart">{{ inCart }}</div>
+      </Transition>
+    </MainLink>
+    <MainLink class="relativeBlock" to="favorite">
+      Favorite
+      <Transition
+        enter-active-class="animate__animated animate__bounceIn"
+        leave-active-class="animate__animated animate__bounceIn"
+      >
+        <div :key="inFavorite" class="badge" v-if="inFavorite">{{ inFavorite }}</div>
       </Transition>
     </MainLink>
     <MainLink to="login">Sign in/up</MainLink>
@@ -36,7 +48,7 @@ defineProps({
 
   gap: 20px;
 }
-.cart {
+.relativeBlock {
   display: flex;
   position: relative;
 }
