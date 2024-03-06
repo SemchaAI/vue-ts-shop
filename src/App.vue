@@ -10,11 +10,16 @@ import { register } from 'swiper/element/bundle'
 
 import { useErrorStore } from './stores/erorrs'
 import { storeToRefs } from 'pinia'
+import { useFavoriteStore } from './stores/favorite'
 
 const errorStore = useErrorStore()
+const favoriteStore = useFavoriteStore()
+
 const { state, isCritical, isError } = storeToRefs(errorStore)
 
 register()
+
+favoriteStore.init()
 </script>
 
 <template>
@@ -30,6 +35,6 @@ register()
 
 <style scoped lang="scss">
 .main {
-  min-height: 720px;
+  flex-grow: 1;
 }
 </style>
